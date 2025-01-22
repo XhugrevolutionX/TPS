@@ -5,6 +5,7 @@ public class ShootingController : MonoBehaviour
 {
     
     [SerializeField] private CinemachineCamera camera;
+    [SerializeField] private GameObject gun;
     
     private AlienInputController _inputs;
     private Animator _animator;
@@ -28,5 +29,7 @@ public class ShootingController : MonoBehaviour
         
         _torsoLayerWeight = Mathf.SmoothDamp(_torsoLayerWeight, _inputs.IsAiming ? 1f : 0f, ref _layerVelocity,0.05f);
         _animator.SetLayerWeight(_torsoLayerIndex, _torsoLayerWeight);
+
+        //gun.transform.localRotation = _inputs.IsAiming ? Quaternion.Euler(0,90,90) : Quaternion.Euler(0,90,0);
     }
 }

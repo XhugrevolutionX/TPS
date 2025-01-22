@@ -66,32 +66,5 @@ public class AlienMoveController : MonoBehaviour
             }
             
         }
-        else
-        {
-            float horizontalSpeed = _inputs.IsRunning ? runSpeed : walkSpeed;
-            _controller.SimpleMove(transform.forward * (_inputs.Move.y * horizontalSpeed));
-        
-            float turnSpeed = _inputs.IsRunning ? fastTurnSpeed : normalTurnSpeed;
-            transform.Rotate(Vector3.up, _inputs.Move.x * turnSpeed * Time.deltaTime);
-        
-        
-            _animator.SetFloat("Speed", _controller.velocity.magnitude);
-
-
-            if (_animator.GetFloat("Speed") < 0.05f)
-            {
-                _idleTimer += Time.deltaTime;
-                if (_idleTimer >= _idleTargetTime)
-                 
-                {
-                    _animator.SetTrigger("IdleAnim");
-                    _idleTimer = 0;
-                }
-            }
-            else
-            {
-                _idleTimer = 0;
-            }
-        }
     }
 }
