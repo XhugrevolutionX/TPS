@@ -13,6 +13,7 @@ public class ShootingController : MonoBehaviour
     [SerializeField] private GameObject spotter;
     [SerializeField] private TextMeshProUGUI targetName;
     [SerializeField] private LayerMask aimLayer;
+    [SerializeField] private float damageRate = 50f;
     
     private AlienInputController _inputs;
     private Camera _mainCamera;
@@ -52,6 +53,14 @@ public class ShootingController : MonoBehaviour
                 else
                 {
                     targetName.gameObject.SetActive(false);
+                }
+            }
+
+            if (_inputs.IsFiring)
+            {
+                if (hit.collider.TryGetComponent(out Target target))
+                {
+                    target.TakeDamage(damageRate * Time.deltaTime);
                 }
             }
         }
