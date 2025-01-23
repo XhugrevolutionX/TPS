@@ -8,6 +8,7 @@ using UnityEngine.UI;
 public class ShootingController : MonoBehaviour
 {
     [SerializeField] private CinemachineCamera aimCamera;
+    [SerializeField] private CinemachineCamera followCamera;
     [SerializeField] private GameObject aimingPanel;
     [SerializeField] private GameObject spotter;
     [SerializeField] private TextMeshProUGUI targetName;
@@ -29,6 +30,7 @@ public class ShootingController : MonoBehaviour
     void Update()
     {
         aimCamera.Priority = _inputs.IsAiming ? 100 : 0;
+        followCamera.gameObject.SetActive(_inputs.IsAiming ? false : true);
         aimingPanel.SetActive(_inputs.IsAiming ? true : false);
 
 
