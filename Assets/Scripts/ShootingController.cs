@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Net.Mime;
 using TMPro;
 using Unity.Cinemachine;
@@ -13,11 +14,19 @@ public class ShootingController : MonoBehaviour
     [SerializeField] private GameObject spotter;
     [SerializeField] private TextMeshProUGUI targetName;
     [SerializeField] private LayerMask aimLayer;
-    [SerializeField] private float damageRate = 50f;
+    [SerializeField] private float damageRate = 10f;
+    
+    [SerializeField] float shootCoroutineDelay = 1f;
+    private bool _canShoot = true;
+    private Coroutine _shootCoroutine;
+    
+    public bool CanShoot => _canShoot;
     
     private AlienInputController _inputs;
     private Camera _mainCamera;
     private Transform _startSpotterPosition;
+    
+    
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -56,11 +65,23 @@ public class ShootingController : MonoBehaviour
                 }
             }
 
-            if (_inputs.IsFiring)
+            if (_inputs.IsShooting)
             {
-                if (hit.collider.TryGetComponent(out Target target))
+                if (_canShoot)
                 {
-                    target.TakeDamage(damageRate * Time.deltaTime);
+                    
+                    if (hit.collider.TryGetComponent(out Target target))
+                    {
+                        target.TakeDamage(damageRate);
+                    }
+
+                    _canShoot = false;    
+                    
+                    if (_shootCoroutine != null)
+                    {
+                        StopCoroutine(_shootCoroutine);
+                    }
+                    _shootCoroutine = StartCoroutine("ShootCoroutine");
                 }
             }
         }
@@ -70,4 +91,11 @@ public class ShootingController : MonoBehaviour
             spotter.SetActive(false);
         }
     }
+
+    IEnumerator ShootCoroutine()
+    {
+        yield return new WaitForSeconds(shootCoroutineDelay);
+        _canShoot = true;
+    }
+    
 }

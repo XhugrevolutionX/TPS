@@ -2418,7 +2418,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1624502261}
         m_TargetAssemblyTypeName: AlienInputController, Assembly-CSharp
-        m_MethodName: OnFire
+        m_MethodName: OnShoot
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2498,6 +2498,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 320
   damageRate: 50
+  shootCoroutineDelay: 1
 --- !u!114 &1624502266
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -13,6 +13,7 @@ public class AlienMoveController : MonoBehaviour
     [SerializeField] private Transform _rootCharacter;
 
     private AlienInputController _inputs;
+    private ShootingController _shootingController;
     private CharacterController _controller;
     private Animator _animator;
 
@@ -24,7 +25,7 @@ public class AlienMoveController : MonoBehaviour
         _inputs = GetComponent<AlienInputController>();
         _controller = GetComponent<CharacterController>();
         _animator = GetComponentInChildren<Animator>();
-
+        _shootingController = GetComponent<ShootingController>();
 
     }
 
@@ -48,7 +49,7 @@ public class AlienMoveController : MonoBehaviour
 
                     float horizontalSpeed = _inputs.IsRunning ? _runSpeed : _walkSpeed;
                     _animator.SetFloat("Speed", _inputs.Move.magnitude * horizontalSpeed);
-
+                    
                 }
                 else
                 {
@@ -62,7 +63,14 @@ public class AlienMoveController : MonoBehaviour
                 _animator.SetFloat("Speed", 0f);
             }
 
-
+            if (_inputs.IsAiming && _inputs.IsShooting && _shootingController.CanShoot)
+            {
+                _animator.SetBool("Shoots", true);
+            }
+            else
+            {
+                _animator.SetBool("Shoots", false);
+            }
         }
         else
         {
