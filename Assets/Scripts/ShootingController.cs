@@ -15,7 +15,7 @@ public class ShootingController : MonoBehaviour
     [SerializeField] private TextMeshProUGUI targetName;
     [SerializeField] private LayerMask aimLayer;
     [SerializeField] private float damageRate = 10f;
-    
+    [SerializeField] private ParticleSystem muzzleFlash;
     [SerializeField] float shootCoroutineDelay = 1f;
     private bool _canShoot = true;
     private Coroutine _shootCoroutine;
@@ -74,7 +74,9 @@ public class ShootingController : MonoBehaviour
                     {
                         target.TakeDamage(damageRate);
                     }
-
+                    
+                    muzzleFlash.Play();
+                    
                     _canShoot = false;    
                     
                     if (_shootCoroutine != null)
