@@ -1,3 +1,4 @@
+using Unity.Mathematics.Geometry;
 using UnityEngine;
 
 public class AlienMoveController : MonoBehaviour
@@ -18,6 +19,7 @@ public class AlienMoveController : MonoBehaviour
     private Animator _animator;
 
     private float _angleVelocity;
+    private float _speedVelocity;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -48,19 +50,19 @@ public class AlienMoveController : MonoBehaviour
                     _rootCharacter.rotation = Quaternion.Euler(0, actualAngle, 0);
 
                     float horizontalSpeed = _inputs.IsRunning ? _runSpeed : _walkSpeed;
-                    _animator.SetFloat("Speed", _inputs.Move.magnitude * horizontalSpeed);
+                    _animator.SetFloat("Speed", Mathf.SmoothDamp(_animator.GetFloat("Speed"), _inputs.Move.magnitude * horizontalSpeed, ref _speedVelocity, 0.25f));
                     
                 }
                 else
                 {
-                    _animator.SetFloat("Strafe", _inputs.Move.x);
-                    _animator.SetFloat("Speed", _inputs.Move.y * _walkSpeed);
+                    _animator.SetFloat("Strafe", Mathf.SmoothDamp(_animator.GetFloat("Stafe"), _inputs.Move.x, ref _speedVelocity, 0.25f));
+                    _animator.SetFloat("Speed", Mathf.SmoothDamp(_animator.GetFloat("Speed"), _inputs.Move.y * _walkSpeed, ref _speedVelocity, 0.25f));
                 }
             }
             else
             {
-                _animator.SetFloat("Strafe", 0f);
-                _animator.SetFloat("Speed", 0f);
+                _animator.SetFloat("Strafe",  Mathf.SmoothDamp(_animator.GetFloat("Stafe"), 0f, ref _speedVelocity, 0.025f));
+                _animator.SetFloat("Speed", Mathf.SmoothDamp(_animator.GetFloat("Speed"), 0f, ref _speedVelocity, 0.025f));
             }
 
             if (_inputs.IsAiming && _inputs.IsShooting && _shootingController.CanShoot)
