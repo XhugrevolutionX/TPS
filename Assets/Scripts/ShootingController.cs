@@ -12,7 +12,6 @@ public class ShootingController : MonoBehaviour
     [SerializeField] private CinemachineCamera followCamera;
     [SerializeField] private GameObject aimingPanel;
     [SerializeField] private GameObject spotter;
-    [SerializeField] private TextMeshProUGUI targetName;
     [SerializeField] private LayerMask aimLayer;
     [SerializeField] private float damageRate = 10f;
     [SerializeField] private ParticleSystem muzzleFlash;
@@ -53,23 +52,12 @@ public class ShootingController : MonoBehaviour
             {
                 spotter.SetActive(true);
                 spotter.transform.position = hit.point;
-
-                if (hit.collider.CompareTag("Target"))
-                {
-                    targetName.gameObject.SetActive(true);
-                    targetName.text = hit.collider.name;
-                }
-                else
-                {
-                    targetName.gameObject.SetActive(false);
-                }
             }
 
             if (_inputs.IsShooting)
             {
                 if (_canShoot)
                 {
-                    
                     if (hit.collider.TryGetComponent(out Target target))
                     {
                         target.TakeDamage(damageRate);

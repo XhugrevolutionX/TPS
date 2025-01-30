@@ -4,9 +4,8 @@ using UnityEngine;
 public class Target : MonoBehaviour
 {
     [SerializeField] private float maxHealth = 100;
-    
     private float _currentHealth;
-
+    public event Action<Target> OnDestroyed;
     private void Start()
     {
         _currentHealth = maxHealth;
@@ -16,8 +15,13 @@ public class Target : MonoBehaviour
     {
         _currentHealth -= damage;
         Debug.Log(_currentHealth);
-        if(_currentHealth <= 0)
+        if (_currentHealth <= 0)
+        {
+            OnDestroyed?.Invoke(this);
             Destroy(gameObject);
+        }
+           
+
     }
     
 }

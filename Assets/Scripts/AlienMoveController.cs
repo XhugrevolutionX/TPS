@@ -20,6 +20,7 @@ public class AlienMoveController : MonoBehaviour
 
     private float _angleVelocity;
     private float _speedVelocity;
+    private float _strafeVelocity;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -55,18 +56,19 @@ public class AlienMoveController : MonoBehaviour
                 }
                 else
                 {
-                    _animator.SetFloat("Strafe", Mathf.SmoothDamp(_animator.GetFloat("Stafe"), _inputs.Move.x, ref _speedVelocity, 0.25f));
+                    _animator.SetFloat("Strafe", Mathf.SmoothDamp(_animator.GetFloat("Strafe"), _inputs.Move.x, ref _strafeVelocity, 0.25f));
                     _animator.SetFloat("Speed", Mathf.SmoothDamp(_animator.GetFloat("Speed"), _inputs.Move.y * _walkSpeed, ref _speedVelocity, 0.25f));
                 }
             }
             else
             {
-                _animator.SetFloat("Strafe",  Mathf.SmoothDamp(_animator.GetFloat("Stafe"), 0f, ref _speedVelocity, 0.025f));
+                _animator.SetFloat("Strafe",  Mathf.SmoothDamp(_animator.GetFloat("Strafe"), 0f, ref _strafeVelocity, 0.025f));
                 _animator.SetFloat("Speed", Mathf.SmoothDamp(_animator.GetFloat("Speed"), 0f, ref _speedVelocity, 0.025f));
             }
 
             if (_inputs.IsAiming && _inputs.IsShooting && _shootingController.CanShoot)
             {
+                Debug.Log("Shot anim should play");
                 _animator.SetBool("Shoots", true);
             }
             else
